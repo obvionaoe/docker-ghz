@@ -15,7 +15,8 @@ RUN CGO_ENABLED=0 go build -o /go/bin/ghz
 ##############################
 # STEP 2 build a small image #
 ##############################
-FROM scratch
+FROM alpine
+RUN apk update && apk add --no-cache httpie ca-certificates && update-ca-certificates
 # Import from builder.
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 # Copy our static executable.

@@ -21,7 +21,6 @@ RUN apk update && apk add --no-cache httpie ca-certificates && update-ca-certifi
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 # Copy our static executable.
 COPY --from=builder /go/bin/ghz /go/bin/ghz
-# Change workdir to facilitate volume mounting
-WORKDIR /tests
-# Run the binary.
-ENTRYPOINT ["/go/bin/ghz"]
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]

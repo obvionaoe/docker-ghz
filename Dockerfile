@@ -21,5 +21,9 @@ RUN apk update && apk add --no-cache httpie ca-certificates && update-ca-certifi
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 # Copy our static executable.
 COPY --from=builder /go/bin/ghz /go/bin/ghz
-# Set ghz as entrypoint
-ENTRYPOINT ["/go/bin/ghz"]
+# Copy our entrypoint script
+COPY entrypoint.sh .
+# Change its owner
+RUN chmod +x entrypoint.sh
+# Set it as entrypoint
+ENTRYPOINT ["./entrypoint.sh"]

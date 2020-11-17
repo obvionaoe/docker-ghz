@@ -17,9 +17,9 @@ RUN CGO_ENABLED=0 go build -o /go/bin/ghz
 ##############################
 FROM alpine
 RUN apk update && apk add --no-cache httpie ca-certificates && update-ca-certificates
-# Import from builder.
+# Import from the builder image.
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-# Copy our static executable.
+# Copy our static executable from the builder image.
 COPY --from=builder /go/bin/ghz /go/bin/ghz
 # Copy our entrypoint script
 COPY entrypoint.sh .

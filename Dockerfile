@@ -6,7 +6,10 @@ FROM golang:alpine AS builder
 # Git is required for fetching the dependencies.
 RUN apk update && apk add --no-cache git ca-certificates && update-ca-certificates
 WORKDIR $GOPATH/src/
-RUN git clone --depth 1 --branch v0.59.0 https://github.com/bojand/ghz
+# Set version env var
+ENV GHZ_VERSION=v0.101.0
+# Clone the branch for the given version
+RUN git clone --depth 1 --branch ${GHZ_VERSION} https://github.com/bojand/ghz
 WORKDIR $GOPATH/src/ghz/cmd/ghz
 # Fetch dependencies using go get.
 RUN go get -d -v

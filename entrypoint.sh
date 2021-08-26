@@ -3,13 +3,13 @@
 helpFunction()
 {
   echo ""
-  echo "Usage: $0 -c config -p proto -o output ..."
-  echo -e "\t-c The path to the test json file."
-  echo -e "\t-p The path to the proto file."
-  echo -e "\t-o The output format."
+  echo -e "Usage: \tdocker run obvionaoe/ghz -c config -p proto -o output ..."
+  echo -e "\t -c The path to the test json file."
+  echo -e "\t -p The path to the proto file."
+  echo -e "\t -o The output format."
   echo ""
-  echo -e "httpie options(if needed)"
-  echo -e "\t-h The hostname, port and api path of the ghz-web server."
+  echo -e "\thttpie options(if needed)"
+  echo -e "\t -h The hostname, port and api path of the ghz-web server."
   exit 1 # Exit script after printing help
 }
 

@@ -50,7 +50,7 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           build-args:
-            - APP_VERSION=${{ steps.tag_name.outputs.version }}
+            - "APP_VERSION=${{ steps.tag_name.outputs.version }}"
 
       - name: Update Docker Hub description
         uses: peter-evans/dockerhub-description@v2

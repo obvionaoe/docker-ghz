@@ -49,7 +49,7 @@ jobs:
           tags:  ${{ github.repository_owner }}/${{ env.project_name }}:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-          build-args: APP_VERSION=${{ steps.tag_name.outputs.version }}
+          build-args: APP_VERSION=${{ toJson(github.event.client_payload).tag }}"
 
       - name: Update Docker Hub description
         uses: peter-evans/dockerhub-description@v2

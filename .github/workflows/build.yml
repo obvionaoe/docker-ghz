@@ -50,10 +50,3 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           build-args: APP_VERSION=${{ steps.tag_name.outputs.version }}
-
-      - name: Update Docker Hub description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          repository: ${{ github.repository_owner }}/${{ env.project_name }}

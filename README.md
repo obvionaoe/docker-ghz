@@ -1,5 +1,7 @@
 # docker-ghz
 
+[![Docker Pulls](https://img.shields.io/docker/pulls/obvionaoe/ghz.svg)](https://hub.docker.com/r/obvionaoe/ghz/)
+
 A slim Alpine-based [docker image](https://hub.docker.com/r/obvionaoe/ghz) for running [ghz](https://github.com/bojand/ghz) load tests.
 
 ## Usage:

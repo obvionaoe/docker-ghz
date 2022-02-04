@@ -1,14 +1,20 @@
 # docker-ghz
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/obvionaoe/ghz.svg)](https://hub.docker.com/r/obvionaoe/ghz/)
+[![Docker Size](https://img.shields.io/docker/image-size/obvionaoe/ghz/latest?logo=docker&label=size&logoColor=white&labelColor=blue&color=blue)](https://hub.docker.com/r/obvionaoe/ghz/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/obvionaoe/ghz.svg?logo=docker&label=pulls&logoColor=white&labelColor=blue&color=blue)](https://hub.docker.com/r/obvionaoe/ghz/)
+[![docker-ghz Version](https://img.shields.io/github/v/release/obvionaoe/docker-ghz?logo=docker&label=version&logoColor=white&labelColor=blue&color=blue)](https://hub.docker.com/r/obvionaoe/ghz/)
+
+[![License](https://img.shields.io/github/license/obvionaoe/docker-ghz)](LICENSE)
+
+[![Discord](https://img.shields.io/badge/Discord-7289DA?style=flat&logo=discord&logoColor=white)](https://discord.gg/w49c9Kq)
 
 A slim Alpine-based [docker image](https://hub.docker.com/r/obvionaoe/ghz) for running [ghz](https://github.com/bojand/ghz) load tests.
 
 ## Usage:
 
-It is highly recommended that you use volume mounts, to mount your proto and config files into the
-container before executing your call. This will allow you to call your service with
-minimal configuration:
+A good way to use the image with minimal configuration, is to use volumes to mount your proto(s) and config file(s) into the container before executing your call.
+
+This will allow you to call `ghz` very easily:
 
 ```
 docker run \

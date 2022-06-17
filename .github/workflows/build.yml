@@ -2,7 +2,7 @@ name: Build and push image to Docker Hub
 
 on:
   schedule:
-    - cron: "5 16 * * *"
+    - cron: "15 16 * * *"
 
 jobs:
   check:

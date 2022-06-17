@@ -2,7 +2,7 @@ name: Build and push image to Docker Hub
 
 on:
   schedule:
-    - cron: "0 17 * * *"
+    - cron: "5 16 * * *"
 
 jobs:
   check:
@@ -54,5 +54,5 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           tags:  ${{ GITHUB_REPOSITORY }}:${{ jobs.check.outputs.tag }},${{ GITHUB_REPOSITORY }}:latest
           cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cacheprojects
           build-args: APP_VERSION=${{ jobs.check.outputs.tag }}

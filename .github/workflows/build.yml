@@ -1,31 +1,62 @@
-name: Build and push image to Docker Hub
+name: Build and push new releases to Docker Hub
 
 on:
   schedule:
-    - cron: "30 18 * * *"
+    - cron: "10 2 * * *"
 
 jobs:
   check:
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{ steps.get_tag.outputs.tag }}
+      matrix: ${{ steps.matrix.outputs.value }}
     env:
       repo: bojand/ghz
     steps:
+      - name: Install skopeo
+        run: sudo apt install skopeo
+
       - name: Get latest tag if more recent than latest DockerHub tag
         id: get_tag
         run: |
           get_latest() {
-            local tag=$(/usr/bin/curl --silent "${{ github.api_url }}/repos/${{ env.repo }}/releases/latest" | /usr/bin/jq -r .tag_name)
+            local git=$(curl --silent "https://api.github.com/repos/bojand/ghz/git/refs/tags" | jq -r '.[].ref' | sed '1d' | sed 's/^refs\/tags\///g' | paste -d, -s)
+            local docker=$(skopeo inspect docker://obvionaoe/ghz | jq -r '.RepoTags[]' | sed '1d' | sort -V | paste -d, -s)
+
+            local result="\""
+            local flag=0
+
+            for i in ${git//,/ }
+            do
+              for j in ${docker//,/ }
+              do
+                if [[ "$i" == "$j" ]]; then
+                  flag=1
+                  break
+                fi
+              done
+
+              if [[ $flag -eq 1 ]]; then
+                flag=0
+                continue
+              fi
+
+              result+="$i,"
+            done
+
+            result=${result::-1}
+            result+="\""
+
+            echo $result | jq 'split(",")'
           }
 
-
-          echo "::set-output name=test::$(get_latest)"
+          echo "::set-output name=value::$(get_latest)"
   
   docker:
-    if: needs.check.outputs.tag != ''
+    needs: [ setup ]
     runs-on: ubuntu-latest
-    needs: check
+    strategy:
+      matrix:
+        value: ${{fromJson(needs.setup.outputs.matrix)}}
     steps:
       - name: Cache Docker build layers
         uses: actions/cache@v3
@@ -58,7 +89,7 @@ jobs:
           context: .
           push: true
           builder: ${{ steps.buildx.outputs.name }}
-          tags:  ${{ github.repository }}:${{ needs.check.outputs.tag }},${{ github.repository }}:latest
+          tags:  ${{ github.repository }}:${{ matrix.value }},${{ github.repository }}:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-          build-args: APP_VERSION=${{ needs.check.outputs.tag }}
+          build-args: APP_VERSION=${{ matrix.value }}

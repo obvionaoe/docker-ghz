@@ -2,7 +2,7 @@ name: Build and push new releases to Docker Hub
 
 on:
   schedule:
-    - cron: "15 2 * * *"
+    - cron: "0 0 * * *"
 
 jobs:
   check:

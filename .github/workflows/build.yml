@@ -5,10 +5,10 @@ on:
     - cron: "0 0 * * *"
 
 jobs:
-  check:
+  setup:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.matrix.outputs.value }}
+      matrix: ${{ steps.get_tag.outputs.value }}
     env:
       repo: bojand/ghz
     steps:
@@ -49,7 +49,7 @@ jobs:
             echo $result | jq 'split(",")'
           }
 
-          echo "::set-output name=value::$(get_latest)"
+          echo "value=$(get_latest)" >> $GITHUB_OUTPUT
   
   docker:
     needs: [ setup ]

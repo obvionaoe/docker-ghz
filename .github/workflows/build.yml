@@ -19,7 +19,7 @@ jobs:
         id: get_tag
         run: |
           get_latest() {
-            local git=$(curl --silent "https://api.github.com/repos/bojand/ghz/git/refs/tags" | jq -r '.[].ref' | sed '50d' | sed 's/^refs\/tags\///g' | paste -d, -s)
+            local git=$(curl --silent "https://api.github.com/repos/bojand/ghz/git/refs/tags" | jq -r '.[].ref' | sed '1,66d' | sed 's/^refs\/tags\///g' | paste -d, -s)
             local docker=$(skopeo inspect docker://obvionaoe/ghz | jq -r '.RepoTags[]' | sed '1d' | sort -V | paste -d, -s)
 
             local result="\""

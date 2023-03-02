@@ -15,11 +15,11 @@ jobs:
       - name: Install skopeo
         run: sudo apt install skopeo
 
-      - name: Get latest tag if more recent than latest DockerHub tag
+      - name: Get all tags that are not in DockerHub yet
         id: get_tag
         run: |
           get_latest() {
-            local git=$(curl --silent "https://api.github.com/repos/bojand/ghz/git/refs/tags" | jq -r '.[].ref' | sed '1d' | sed 's/^refs\/tags\///g' | paste -d, -s)
+            local git=$(curl --silent "https://api.github.com/repos/bojand/ghz/git/refs/tags" | jq -r '.[].ref' | sed '50d' | sed 's/^refs\/tags\///g' | paste -d, -s)
             local docker=$(skopeo inspect docker://obvionaoe/ghz | jq -r '.RepoTags[]' | sed '1d' | sort -V | paste -d, -s)
 
             local result="\""

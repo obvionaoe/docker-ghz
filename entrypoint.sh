@@ -1,6 +1,6 @@
 #!/bin/sh
 
-exec /go/bin/ghz "$@"
+/go/bin/ghz "$@"
 
 # Print helpFunction in case exit code is not 0
 if [ $? != 0 ]; then

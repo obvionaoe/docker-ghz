@@ -48,8 +48,11 @@ jobs:
 
             echo $result | jq 'split(",")'
           }
-
-          echo "value=$(get_latest)" >> $GITHUB_OUTPUT
+          
+          delimiter="$(openssl rand -hex 8)"
+          echo "value<<${delimiter}" >> "${GITHUB_OUTPUT}"
+          echo "$(get_latest)" >> "${GITHUB_OUTPUT}"
+          echo "${delimiter}" >> "${GITHUB_OUTPUT}"
   
   docker:
     needs: [ setup ]

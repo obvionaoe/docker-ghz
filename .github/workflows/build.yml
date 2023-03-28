@@ -44,7 +44,11 @@ jobs:
             done
 
             result=${result::-1}
-            result+="\""
+            if [ -z $result ]; then
+              result+="\"\""
+            else
+              result+="\""
+            fi
 
             echo $result | jq 'split(",")'
           }

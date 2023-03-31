@@ -5,10 +5,10 @@ on:
     - cron: "0 0 * * *"
 
 jobs:
-  setup:
+  changes:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.get_tag.outputs.value }}
+      tags: ${{ steps.get_tag.outputs.value }}
     env:
       repo: bojand/ghz
     steps:
@@ -59,11 +59,12 @@ jobs:
           echo "${delimiter}" >> "${GITHUB_OUTPUT}"
   
   docker:
-    needs: [ setup ]
+    needs: [ changes ]
+    if: ${{ needs.changes.outputs.tags != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        value: ${{fromJson(needs.setup.outputs.matrix)}}
+        value: ${{ fromJson(needs.changes.outputs.tags) }}
     steps:
       - name: Cache Docker build layers
         uses: actions/cache@v3

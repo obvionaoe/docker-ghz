@@ -97,7 +97,7 @@ jobs:
           context: .
           push: true
           builder: ${{ steps.buildx.outputs.name }}
-          tags:  ${{ github.repository }}:${{ matrix.value }},${{ github.repository }}:latest
+          tags:  ${{ github.repository_owner }}/ghz:${{ matrix.value }},${{ github.repository_owner }}/ghz:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           build-args: APP_VERSION=${{ matrix.value }}
